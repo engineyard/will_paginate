@@ -47,7 +47,11 @@ module WillPaginate
               exception.original_exception.is_a?(WillPaginate::InvalidPage))
           Rack::Utils.status_code(:not_found)
         else
-          status_code_without_paginate(exception)
+          if self.method(:status_code_without_paginate).arity == 1
+            status_code_without_paginate(exception)
+          else
+            status_code_without_paginate
+          end
         end
       end
     end
